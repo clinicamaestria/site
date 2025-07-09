@@ -1,0 +1,118 @@
+/* Paleta da Marca (logo) */
+:root {
+  --primary: #007e7a;        /* teal escuro (fundo logo) */
+  --primary-light: #009b96;  /* teal mais claro */
+  --accent: #b0f46e;         /* verde claro (stethoscope) */
+  --bg-light: #e6f2f0;       /* fundo suave esverdeado */
+  --text: #212121;           /* texto escuro */
+  --whatsapp: #2E7D32;        /* verde escuro para botões */
+  --whatsapp-hover: #1B5E20;  /* verde ainda mais escuro no hover */
+}
+
+/* Global Reset e layout básico */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html, body { overflow-x:hidden; font-family:'Poppins', sans-serif; color:var(--text); background:#fff; }
+a { text-decoration:none; color:inherit; }
+ul, ol { list-style:none; }
+
+/* Cabeçalho gradient + fixed */
+header.header-gradient {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  padding:1rem 0;
+  color:#fff;
+  position:relative;
+  z-index:10;
+}
+.header-container {
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 1rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.logo h1 { font-size:2rem; }
+
+/* Hamburger sempre visível */
+.hamburger {
+  display:flex;
+  flex-direction:column;
+  gap:.4rem;
+  background:none;
+  border:none;
+  cursor:pointer;
+}
+.hamburger span {
+  width:25px; height:3px;
+  background:#fff;
+  border-radius:2px;
+  transition:transform .3s;
+}
+
+/* Menu colapsado por padrão e sempre acionado pelo hambúrguer */
+nav ul {
+  display:none;
+  flex-direction:column;
+  gap:1rem;
+  position:absolute;
+  top:100%; right:1rem;
+  background:var(--primary);
+  padding:1rem;
+  border-radius:.5rem;
+}
+nav.open ul { display:flex; }
+nav ul li a {
+  color:#fff;
+  padding:.5rem .75rem;
+  border-radius:.5rem;
+  transition:background .3s;
+}
+nav ul li a:hover { background:rgba(255,255,255,.2); }
+nav ul li a.active { font-weight:600; }
+
+/* Conteúdo principal centralizado em cards */
+main.content-container {
+  max-width:900px;
+  margin:2rem auto;
+  padding:0 1rem;
+}
+.card {
+  background:#fff;
+  padding:1.5rem;
+  margin-bottom:2rem;
+  border-radius:.75rem;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.hero-card { background:var(--bg-light); }
+
+/* Tipografia */
+h2 { font-size:2rem; margin-bottom:.75rem; color:var(--primary); }
+h3 { font-size:1.5rem; margin-bottom:.75rem; color:var(--primary); }
+p, li { margin-bottom:.75rem; line-height:1.6; }
+em { font-style:italic; color:#555; }
+
+dl dt { font-weight:600; margin-top:1rem; }
+dl dd { margin-left:1rem; margin-bottom:.75rem; }
+
+/* Botões WhatsApp & E-book */
+.btn-whatsapp, .btn-ebook {
+  display:inline-block;
+  background-color:var(--whatsapp);
+  color:#fff;
+  padding:.75rem 1.5rem;
+  border-radius:.5rem;
+  font-weight:500;
+  transition:background .3s, transform .2s;
+  margin-top:1rem;
+}
+.btn-whatsapp:hover, .btn-ebook:hover {
+  background-color:var(--whatsapp-hover);
+  transform:translateY(-2px);
+}
+
+/* Rodapé */
+footer { background-color:var(--bg-light); padding:2rem 1rem; text-align:center; }
+.footer-container { max-width:900px; margin:0 auto; }
+
+/* Remover scroll horizontal e espaçamento extra */
+body, html { margin:0; padding:0; }
