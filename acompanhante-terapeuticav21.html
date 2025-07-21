@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Acompanhante Terapêutica – Clínica Maestria</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Menu dinâmico -->
+  <div id="main-menu"></div>
+  <script type="module">
+    import { initMenu } from 'menu-loader.js';
+    fetch('menu.config.json')
+      .then(res => res.json())
+      .then(config => initMenu(config));
+  </script>
+
+  <main class="content-container">
+    <section id="intro" class="card hero-card">
+      <h2>Acompanhante Terapêutica</h2>
+      <p><em>Apoio fora de casa. Segurança em cada passo.</em></p>
+      <p>Na Clínica Maestria, sabemos que o desenvolvimento não acontece só entre quatro paredes. Por isso, a Acompanhante Terapêutica acompanha o paciente em ambientes externos, ajudando a tornar o mundo lá fora mais acolhedor e possível.</p>
+      <p>Seja para ir à escola, ao parque, a um passeio ou até outra terapia, esse é o suporte que garante segurança, inclusão e autonomia.</p>
+    </section>
+
+    <section id="diferenca" class="card">
+      <h3>Qual a diferença entre Acompanhante e Assistente Terapêutica?</h3>
+      <ul>
+        <li><strong>Assistente Terapêutica:</strong> atua dentro do ambiente familiar e escolar, aplicando estratégias terapêuticas.</li>
+        <li><strong>Acompanhante Terapêutica:</strong> oferece suporte em atividades externas, deslocamentos e integração social em espaços abertos.</li>
+      </ul>
+      <p>Cada uma tem seu papel. E ambas podem se complementar, conforme a necessidade do paciente.</p>
+    </section>
+
+    <section id="definicao" class="card">
+      <h3>O que faz uma Acompanhante Terapêutica?</h3>
+      <ul>
+        <li>Acompanha o paciente em atividades fora de casa</li>
+        <li>Auxilia em deslocamentos com segurança</li>
+        <li>Garante apoio em passeios, escola ou outras terapias</li>
+        <li>Promove inclusão social e independência gradual</li>
+      </ul>
+    </section>
+
+    <section id="para-quem" class="card">
+      <h3>Para quem é indicada?</h3>
+      <ul>
+        <li>Crianças e adolescentes que precisam de apoio para sair de casa com segurança</li>
+        <li>Pacientes com dificuldade de adaptação em ambientes externos</li>
+        <li>Aqueles em processo de socialização</li>
+        <li>Quem frequenta escola, terapias ou eventos sociais e precisa de suporte</li>
+      </ul>
+    </section>
+
+    <section id="contratacao" class="card">
+      <h3>Como funciona a contratação?</h3>
+      <p>Trabalhamos com pacotes de horas semanais, com mínimo de 2 horas por dia. A frequência e os horários são ajustados conforme a rotina da criança e da família.</p>
+      <a class="btn-whatsapp" href="https://wa.me/5519996482242?text=Preciso%20de%20acompanhante%20terap%C3%AAutico" target="_blank" rel="noopener noreferrer">
+        Solicitar Orçamento
+      </a>
+    </section>
+
+    <section id="pagamento" class="card">
+      <h3>Formas de pagamento</h3>
+      <p>Aceitamos Pix, cartão e Mercado Pago. Os valores variam conforme o pacote de horas.</p>
+      <p>Valores informados diretamente via WhatsApp.</p>
+    </section>
+
+    <section id="como-agendar" class="card">
+      <h3>Como agendar?</h3>
+      <ol>
+        <li>Clique no botão de WhatsApp acima</li>
+        <li>Envie: “Preciso de acompanhante terapêutico” e informe dias/horários desejados</li>
+      </ol>
+      <p>Nossa equipe responderá em até 2 horas úteis.</p>
+    </section>
+
+    <section id="faq" class="card">
+      <h3>Dúvidas frequentes</h3>
+      <dl>
+        <dt>1. Qual a diferença entre Assistente e Acompanhante Terapêutica?</dt>
+        <dd>A Assistente atua em casa e na escola, com foco terapêutico. A Acompanhante oferece apoio em passeios e deslocamentos.</dd>
+        <dt>2. Como é a contratação?</dt>
+        <dd>Pacotes semanais com mínimo de 2 horas por dia, ajustados conforme necessidade.</dd>
+        <dt>3. Para quem é indicada?</dt>
+        <dd>Para quem precisa de apoio externo, socialização segura e inclusão.</dd>
+        <dt>4. Como agendar?</dt>
+        <dd>Clique no botão e envie: “Preciso de acompanhante terapêutico”.</dd>
+        <dt>5. Valores?</dt>
+        <dd>Informados diretamente via WhatsApp.</dd>
+      </dl>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <section id="contato">
+        <h4>Localização e contato</h4>
+        <p>📍 Rua Alberto Gomes, 215 – Jardim das Paineiras, Hortolândia – SP, CEP 13184-275</p>
+        <p>🔗 <a href="https://www.google.com/maps/place/Cl%C3%ADnica+Maestria" target="_blank" rel="noopener noreferrer">Veja no mapa</a></p>
+        <p>📞 <a href="https://wa.me/5519996482242">(19) 99648-2242</a></p>
+        <p>📧 <a href="mailto:drarutesantiago@gmail.com">drarutesantiago@gmail.com</a></p>
+        <p>🌐 <a href="https://www.clinicamaestria.com.br">clinicamaestria.com.br</a></p>
+        <p>CNPJ: 52.668.454/0001-39</p>
+      </section>
+    </div>
+  </footer>
+</body>
+</html>

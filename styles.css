@@ -1,0 +1,158 @@
+/* Estilos gerais */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f7f9fc;
+  color: #333;
+}
+
+h1, h2, h3, h4, h5 {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+p {
+  line-height: 1.6;
+}
+
+ul, ol {
+  padding-left: 1.2rem;
+}
+
+/* Cabeçalho */
+.header-gradient {
+  background: linear-gradient(90deg, #00B0B9, #007E94);
+  padding: 1rem 0;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.logo h1 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.tagline {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Menu dinâmico */
+#main-menu {
+  position: relative;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  justify-content: center;
+}
+
+.menu-item {
+  text-decoration: none;
+  color: #007E94;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.menu-item:hover,
+.menu-item.active {
+  color: #00B0B9;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  margin-left: 1rem;
+}
+
+@media (max-width: 768px) {
+  .menu {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .menu.open {
+    display: flex;
+  }
+  .menu-toggle {
+    display: block;
+  }
+}
+
+/* Conteúdo */
+.content-container {
+  max-width: 960px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 2rem;
+  animation: fade-in 0.4s ease-in-out;
+}
+
+.hero-card {
+  background: #e8f6f8;
+  border-left: 5px solid #00B0B9;
+}
+
+/* Botão WhatsApp */
+.btn-whatsapp {
+  display: inline-block;
+  background-color: #25D366;
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.btn-whatsapp:hover {
+  background-color: #1ebe5d;
+}
+
+/* Rodapé */
+footer {
+  background-color: #007E94;
+  color: white;
+  padding: 2rem 1rem;
+}
+
+.footer-container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+footer a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* Animações */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

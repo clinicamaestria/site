@@ -1,0 +1,21 @@
+{
+  "menuItems": [
+    { "label": "Início", "path": "/index.html" },
+    { "label": "Fisioterapia", "path": "/fisioterapia.html" },
+    { "label": "Nutrição", "path": "/nutricao.html" },
+    { "label": "Fonoaudiologia", "path": "/fonoaudiologia.html" },
+    { "label": "Neuropsicologia", "path": "/neuropsicologia.html" },
+    { "label": "Terapia Ocupacional", "path": "/terapia-ocupacional.html" },
+    { "label": "Assistente Terapêutica", "path": "/assistente-terapeutica.html" },
+    { "label": "Acompanhante Terapêutica", "path": "/acompanhante-terapeutica.html" },
+    { "label": "Psicologia", "path": "/psicologia.html" },
+    { "label": "Psicopedagogia", "path": "/psicopedagogia.html" },
+    { "label": "Aulas de Inglês", "path": "/aulas-ingles.html" },
+    { "label": "Massagem Relaxante", "path": "/massagem-relaxante.html" },
+    { "label": "Drenagem Linfática", "path": "/drenagem-linfatica.html" }
+  ],
+  "options": {
+    "mobileBreakpoint": 768,
+    "animationDuration": 300
+  }
+}
