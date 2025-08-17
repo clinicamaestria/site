@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Velocímetro GPS</title>
+  <meta name="theme-color" content="#0f172a" />
+  <style>
+    :root{
+      --bg1:#0f172a; /* slate-900 */
+      --bg2:#1e293b; /* slate-800 */
+      --card:#111827; /* gray-900 */
+      --text:#e5e7eb; /* gray-200 */
+      --muted:#94a3b8; /* slate-400 */
+      --accent:#22d3ee; /* cyan-400 */
+      --accent-2:#a78bfa; /* violet-400 */
+      --danger:#ef4444; /* red-500 */
+      --ok:#22c55e; /* green-500 */
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background: radial-gradient(1200px 800px at 70% -10%, var(--bg2), var(--bg1));
+      color:var(--text); display:flex; align-items:center; justify-content:center;
+    }
+    .wrap{ width:min(780px, 100%); padding:16px; }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:24px; padding:20px 18px; box-shadow: 0 10px 35px rgba(0,0,0,0.35);
+      backdrop-filter: blur(8px);
+    }
+    h1{margin:4px 0 14px 8px; font-weight:700; letter-spacing:.5px; font-size:22px; color:#fff}
+    .speed {
+      display:flex; align-items:flex-end; justify-content:center;
+      gap:14px; padding:12px 10px 8px; border-radius:18px;
+      background:linear-gradient(135deg, rgba(34,211,238,.15), rgba(167,139,250,.15));
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .value { font-size: clamp(72px, 18vw, 140px); line-height: .9; font-weight:800; letter-spacing: -1.5px; }
+    .unit { font-size: clamp(20px, 4.5vw, 32px); opacity:.9; margin-bottom: 14px; }
+
+    .status{ display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center; justify-content:space-between; margin:12px 2px 4px }
+    .pill{ font-size:13px; color:var(--muted); padding:8px 12px; border-radius:999px; border:1px dashed rgba(255,255,255,.15) }
+    .pill strong{ color:var(--text) }
+
+    .controls{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px }
+    .row{ display:flex; gap:10px; flex-wrap:wrap }
+    button{
+      -webkit-tap-highlight-color: transparent;
+      appearance:none; border:none; cursor:pointer;
+      padding:14px 16px; border-radius:14px; font-weight:700; font-size:16px; letter-spacing:.3px;
+      color:#0b1220; background:linear-gradient(180deg, #22d3ee, #0ea5b3);
+      box-shadow: 0 10px 24px rgba(34,211,238,.25);
+    }
+    button.secondary{ color:#e5e7eb; background: rgba(255,255,255,.07); box-shadow:none; border:1px solid rgba(255,255,255,.1) }
+    button.danger{ color:#fff; background:linear-gradient(180deg, #ef4444, #b91c1c); box-shadow:0 10px 24px rgba(239,68,68,.25) }
+    button:disabled{ opacity:.5; cursor:not-allowed }
+
+    .tiny{ font-size:12px; color:var(--muted); margin-top:10px; line-height:1.4 }
+
+    .opts{ display:flex; gap:8px; align-items:center; margin-top:10px; flex-wrap:wrap }
+    .toggle{ display:flex; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:3px }
+    .toggle button{ background:none; color:#cbd5e1; box-shadow:none; padding:8px 14px; font-weight:700 }
+    .toggle button.active{ background:#111827; color:#fff; border-radius:9px }
+
+    .range{ display:flex; align-items:center; gap:10px; color:#cbd5e1 }
+    input[type=range]{ width:180px }
+
+    .warn{ color: #fde68a }
+    .hidden{ display:none !important }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Velocímetro GPS</h1>
+      <div class="speed" role="status" aria-live="polite">
+        <div class="value" id="speedValue">--</div>
+        <div class="unit" id="unitLabel">km/h</div>
+      </div>
+
+      <div class="status">
+        <div class="pill"><span id="gpsState">Aguardando GPS…</span></div>
+        <div class="pill"><strong>Precisão:</strong> <span id="acc">—</span></div>
+        <div class="pill"><strong>Fonte:</strong> <span id="src">—</span></div>
+      </div>
+
+      <div class="controls">
+        <button id="startBtn" class="primary">Iniciar</button>
+        <button id="stopBtn" class="danger" disabled>Parar</button>
+      </div>
+
+      <div class="opts">
+        <div class="toggle" role="group" aria-label="Unidades">
+          <button id="uKmh" class="active" data-unit="kmh">km/h</button>
+          <button id="uMph" data-unit="mph">mph</button>
+        </div>
+        <div class="range">
+          <label for="smooth">Suavização</label>
+          <input id="smooth" type="range" min="0" max="100" value="50" />
+          <span id="smoothLbl">médio</span>
+        </div>
+        <button id="resetBtn" class="secondary">Zerar</button>
+      </div>
+
+      <div class="tiny">
+        Dica: para melhor precisão, use ao ar livre com visão de céu. Em alguns celulares, o navegador só fornece velocidade quando o site está em <strong>HTTPS</strong> e com a aba em primeiro plano.
+      </div>
+      <div id="insecureNote" class="tiny warn hidden">Aviso: conexões sem HTTPS podem impedir acesso ao GPS em alguns aparelhos.</div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  'use strict';
+  const el = (id)=>document.getElementById(id);
+  const speedEl = el('speedValue');
+  const unitLabel = el('unitLabel');
+  const gpsState = el('gpsState');
+  const accEl = el('acc');
+  const srcEl = el('src');
+  const startBtn = el('startBtn');
+  const stopBtn = el('stopBtn');
+  const resetBtn = el('resetBtn');
+  const smoothRange = el('smooth');
+  const smoothLbl = el('smoothLbl');
+  const insecureNote = el('insecureNote');
+  const unitButtons = [el('uKmh'), el('uMph')];
+
+  const SECURE = (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1');
+  if(!SECURE){ insecureNote.classList.remove('hidden'); }
+
+  let unit = localStorage.getItem('vel.unit') || 'kmh';
+  let watchId = null;
+  let last = null; // {lat, lon, t, acc}
+  let ema = null; // smoothed m/s
+  let maxValidMs = 85; // ~306 km/h
+  let wakeLock = null;
+
+  // map smoothing slider [0..100] -> alpha [0.15..0.85]
+  const alphaFromSlider = v => 0.15 + (0.70 * (v/100));
+
+  function setUnit(u){
+    unit = u; localStorage.setItem('vel.unit', u);
+    unitLabel.textContent = (u==='mph'?'mph':'km/h');
+    unitButtons.forEach(b=>b.classList.toggle('active', b.dataset.unit===u));
+    // Force re-render with current EMA
+    if(ema!=null){ renderSpeed(ema); }
+  }
+
+  unitButtons.forEach(btn=> btn.addEventListener('click', ()=> setUnit(btn.dataset.unit)));
+  setUnit(unit);
+
+  function kmh(ms){ return ms * 3.6; }
+  function mph(ms){ return ms * 2.2369362921; }
+  function toUnit(ms){ return unit==='mph' ? mph(ms) : kmh(ms); }
+
+  function fmt(n){
+    if(!isFinite(n)) return '--';
+    // Fewer decimals at high speed
+    const abs = Math.abs(n);
+    const dec = abs < 10 ? 2 : abs < 100 ? 1 : 0;
+    return n.toFixed(dec);
+  }
+
+  function haversine(lat1, lon1, lat2, lon2){
+    const R = 6371000; // m
+    const toRad = d => d * Math.PI / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon/2)**2;
+    return 2 * R * Math.asin(Math.sqrt(a));
+  }
+
+  function chooseSource(curr, prev){
+    // Return {ms, src}
+    const t = curr.t, t0 = prev.t;
+    const dt = (t - t0) / 1000;
+    let byGps = (typeof curr.gpsSpeed === 'number' && curr.gpsSpeed >= 0);
+    let viaGpsMs = byGps ? curr.gpsSpeed : null;
+
+    let viaCalcMs = null;
+    if(dt > 0 && dt < 30){
+      const d = haversine(prev.lat, prev.lon, curr.lat, curr.lon);
+      viaCalcMs = d / dt;
+    }
+
+    // Prefer GPS speed when accuracy is good (< 20m) and value is plausible. Else use calculated.
+    const acc = curr.acc ?? 9999;
+    const plausible = s => s!=null && isFinite(s) && s >= 0 && s <= maxValidMs;
+
+    if(plausible(viaGpsMs) && acc <= 20) return { ms: viaGpsMs, src: 'GPS' };
+    if(plausible(viaCalcMs)) return { ms: viaCalcMs, src: 'trajeto' };
+    if(plausible(viaGpsMs)) return { ms: viaGpsMs, src: 'GPS' };
+    return { ms: null, src: '—' };
+  }
+
+  function renderSpeed(ms){
+    if(ms==null){ speedEl.textContent='--'; return; }
+    const v = toUnit(ms);
+    speedEl.textContent = fmt(v);
+  }
+
+  function setStatus(text){ gpsState.textContent = text; }
+
+  function updateSmoothLabel(){
+    const v = Number(smoothRange.value);
+    smoothLbl.textContent = (v<25?'baixo': v<75?'médio':'alto');
+  }
+  smoothRange.addEventListener('input', updateSmoothLabel);
+  updateSmoothLabel();
+
+  async function lockScreen(){
+    try{
+      if('wakeLock' in navigator){
+        wakeLock = await navigator.wakeLock.request('screen');
+        wakeLock.addEventListener?.('release', ()=>{ /* noop */});
+      }
+    }catch(_e){ /* ignore */ }
+  }
+  async function releaseLock(){ try{ await wakeLock?.release(); }catch(_e){} wakeLock=null; }
+  document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible' && watchId!=null) lockScreen(); });
+
+  function start(){
+    if(!('geolocation' in navigator)){
+      setStatus('Seu navegador não suporta geolocalização.');
+      return;
+    }
+    if(watchId!=null) return; // already running
+
+    ema = null; last = null;
+    const opts = { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 };
+
+    setStatus('Conectando ao GPS…');
+    try{
+      watchId = navigator.geolocation.watchPosition(onPos, onErr, opts);
+      startBtn.disabled = true; stopBtn.disabled = false;
+      lockScreen();
+    }catch(e){
+      onErr(e);
+    }
+  }
+
+  function stop(){
+    if(watchId!=null){ navigator.geolocation.clearWatch(watchId); watchId = null; }
+    setStatus('Pausado');
+    stopBtn.disabled = true; startBtn.disabled = false;
+    releaseLock();
+  }
+
+  function reset(){ ema=null; last=null; renderSpeed(null); srcEl.textContent='—'; accEl.textContent='—'; }
+
+  function onPos(p){
+    // Some devices deliver 0 speed when stationary; accuracy in meters
+    const curr = {
+      lat: p.coords.latitude,
+      lon: p.coords.longitude,
+      t: p.timestamp || Date.now(),
+      acc: p.coords.accuracy,
+      gpsSpeed: (typeof p.coords.speed === 'number' ? p.coords.speed : null) // m/s
+    };
+
+    accEl.textContent = curr.acc ? (Math.round(curr.acc)+' m') : '—';
+
+    if(last){
+      const {ms, src} = chooseSource(curr, last);
+      srcEl.textContent = src;
+
+      if(ms!=null){
+        // Smoothing
+        const alpha = alphaFromSlider(Number(smoothRange.value));
+        ema = (ema==null) ? ms : (alpha*ms + (1-alpha)*ema);
+        // Zero very small speeds (<0.5 km/h or <0.3 mph)
+        const thresholdMs = (unit==='mph'? 0.134 : 0.139); // ~0.3 mph or 0.5 km/h
+        renderSpeed(ema < thresholdMs ? 0 : ema);
+        setStatus('Rastreando');
+      }
+    }
+    last = curr;
+  }
+
+  function onErr(err){
+    let msg = 'Erro ao obter localização';
+    if(err && typeof err === 'object'){
+      switch(err.code){
+        case 1: msg = 'Permissão negada. Ative a localização para usar o velocímetro.'; break;
+        case 2: msg = 'Sinal de GPS indisponível no momento.'; break;
+        case 3: msg = 'Tempo esgotado ao buscar GPS.'; break;
+        default: if(err.message) msg = err.message;
+      }
+    }
+    setStatus(msg);
+    startBtn.disabled = false; stopBtn.disabled = true;
+  }
+
+  startBtn.addEventListener('click', start);
+  stopBtn.addEventListener('click', stop);
+  resetBtn.addEventListener('click', reset);
+
+  // Auto-start on load; if bloquear, o botão Iniciar fica disponível
+  window.addEventListener('load', ()=>{
+    // iOS pode exigir gesto; tentamos e, se falhar, o usuário aperta Iniciar
+    try { start(); } catch(_e) { /* ignore */ }
+  });
+})();
+</script>
+</body>
+</html>
